@@ -28,3 +28,9 @@ class AuthenticationUserTestCase(APITestCase):
     def teste_autenticacao_de_user_com_password_incorreto(self):
         user = authenticate(username='c3p0',password='123455')
         self.assertFalse((user is not None) and user.is_authenticated)
+    
+    def teste_requisicao_get_com_user_autenticado(self):
+        '''Teste que verifica uma requisição GET de um user autenticado'''
+        self.client.force_authenticate(self.user)
+        response=self.client.get(self.list_url)
+        self.assertEqual(response.status_code,status.HTTP_200_OK)
